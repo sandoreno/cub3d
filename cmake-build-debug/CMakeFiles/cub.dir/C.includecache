@@ -1,0 +1,46 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/acarroll/CLionProjects/cub/cub3d.h
+libft/libft.h
+/Users/acarroll/CLionProjects/cub/libft/libft.h
+mlx/mlx.h
+/Users/acarroll/CLionProjects/cub/mlx/mlx.h
+math.h
+-
+stdlib.h
+-
+unistd.h
+-
+
+/Users/acarroll/CLionProjects/cub/get_next_line.c
+cub3d.h
+/Users/acarroll/CLionProjects/cub/cub3d.h
+
+/Users/acarroll/CLionProjects/cub/libft/libft.h
+unistd.h
+-
+stdlib.h
+-
+
+/Users/acarroll/CLionProjects/cub/main.c
+cub3d.h
+/Users/acarroll/CLionProjects/cub/cub3d.h
+stdio.h
+-
+fcntl.h
+-
+
+/Users/acarroll/CLionProjects/cub/mlx/mlx.h
+
+/Users/acarroll/CLionProjects/cub/parser_map.c
+cub3d.h
+/Users/acarroll/CLionProjects/cub/cub3d.h
+stdio.h
+-
+
