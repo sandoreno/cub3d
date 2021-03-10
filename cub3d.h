@@ -62,4 +62,5 @@ int ft_key_press(int key, t_all *all);
 void ft_create_map(t_all all);
 void ft_create_point(int x, int y, t_all all, int color);
 int draw_screen(t_all *all);
+void	ft_cast_ray(t_all *all);
 #endif

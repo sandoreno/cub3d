@@ -38,15 +38,26 @@ int ft_key_press(int key, t_all *all)
 {
 	mlx_clear_window(all->win->mlx, all->win->win);
 	if(key == 13)
-	{all->plr->y -= 10;}
+		if(all->map[(int)(all->plr->x + (sin(all->plr->dir) * 8))/15]
+		[(int)((all->plr->y) + (cos(all->plr->dir) * 8))/15] != '1')
+			{
+			all->plr->x += sin(all->plr->dir) * 8;
+			all->plr->y += cos(all->plr->dir) * 8;
+			}
 	if(key == 1)
-	{all->plr->y += 10;}
+		if(all->map[(int)(all->plr->x - (sin(all->plr->dir) * 8))/15]
+		   [(int)((all->plr->y) - (cos(all->plr->dir) * 8))/15] != '1')
+			{
+				all->plr->x -= sin(all->plr->dir) * 8;
+				all->plr->y -= cos(all->plr->dir) * 8;
+			}
 	if(key == 0)
-	{all->plr->x -= 10;}
+//		if(all->map[(int)(all->plr->x)/15][(int)(all->plr->y)/15] != '1')
+			{all->plr->dir -= 0.2;}
 	if(key == 2)
-	{all->plr->x += 10;}
-	ft_create_map(*all);
-	ft_create_point(all->plr->x* 15, all->plr->x* 15, *all,0x000000FF);
+//		if(all->map[(int)(all->plr->x)/15][(int)(all->plr->y)/15] != '1')
+			{all->plr->dir += 0.2;}
+	draw_screen(all);
 	return(0);
 }
 
@@ -83,6 +94,7 @@ int ft_player_pozition(t_all *all, t_plr *plr)
 			{
 				plr->x = i * 15;
 				plr->y = j * 15;
+				plr->dir = M_PI_2 * 3;
 //				ft_create_point(i* 15, j* 15, *all,0x000000FF);
 			}
 			else if(all->map[i][j] == 'S')
@@ -127,7 +139,8 @@ int draw_screen(t_all *all)
 		}
 		i++;
 	}
-	ft_create_point(all->plr->x, all->plr->y, *all, 0x0000FF);
+	//ft_create_point(all->plr->x, all->plr->y, *all, 0x0000FF);
+	ft_cast_ray(all);
 }
 
 void ft_create_map(t_all all)
@@ -180,6 +193,7 @@ char *ft_parser_map(char **map, int i, int size)
 		s++;
 	}
 	ft_create_map(list);
+	printf("%d\n", M_PI_2);
 	return(list.map);
 }
 
