@@ -34,6 +34,7 @@ void new_player(t_plr plr)
 //	plr.end =..;
 }
 
+
 int ft_key_press(int key, t_all *all)
 {
 	mlx_clear_window(all->win->mlx, all->win->win);
@@ -61,7 +62,8 @@ int ft_key_press(int key, t_all *all)
 	return(0);
 }
 
-void ft_create_point(int x, int y, t_all all, int color)
+
+void ft_create_point(int x, int y, t_all *all, int color)
 {
 	int i;
 	int j;
@@ -73,7 +75,7 @@ void ft_create_point(int x, int y, t_all all, int color)
 	{
 		i = x;
 		while(i++ < x + 15)
-			mlx_pixel_put(all.win->mlx,all.win->win,j,i, color);
+			my_mlx_pixel_put(all->win,j,i, color);
 	}
 }
 
@@ -99,15 +101,15 @@ int ft_player_pozition(t_all *all, t_plr *plr)
 			}
 			else if(all->map[i][j] == 'S')
 			{
-				ft_create_point(i* 15, j* 15, *all,0x000000FF);
+				ft_create_point(i* 15, j* 15, all,0x000000FF);
 			}
 			else if(all->map[i][j] == 'E')
 			{
-				ft_create_point(i* 15, j* 15, *all,0x000000FF);
+				ft_create_point(i* 15, j* 15, all,0x000000FF);
 			}
 			else if(all->map[i][j] == 'W')
 			{
-				ft_create_point(i* 15, j* 15, *all,0x000000FF);
+				ft_create_point(i* 15, j* 15, all,0x000000FF);
 			}
 			j++;
 		}
@@ -124,23 +126,27 @@ int draw_screen(t_all *all)
 	int len;
 
 	i = 0;
+	all->win->img = mlx_new_image(all->win->mlx, 640 , 480);
+	all->win->addr = mlx_get_data_addr(all->win->img, &all->win->bpp, &all->win->line_l, &all->win->en);
 	while(all->map[i] != NULL)
 	{
 		j = 0;
-		len = ft_strlen(all->map[i]);
-		while(j < len)
+		//len = ft_strlen(all->map[i]);
+		while(all->map[i][j])
 		{
 			if(all->map[i][j] == '1') {
 //				mlx_pixel_put(win.mlx,win.win,i,j, 0xFFFFFF);
-				ft_create_point(i * 15, j * 15, *all, 0x00FF00);
+				ft_create_point(i * 15, j * 15, all, 0x00FF00);
 			}
 //			ft_player_pozition(i, j, &all, plr);
 			j++;
 		}
 		i++;
 	}
-	//ft_create_point(all->plr->x, all->plr->y, *all, 0x0000FF);
 	ft_cast_ray(all);
+	mlx_put_image_to_window(all->win->mlx, all->win->win, all->win->img, 0, 0);
+	mlx_destroy_image(all->win->mlx, all->win->img);
+	//ft_create_point(all->plr->x, all->plr->y, *all, 0x0000FF);
 }
 
 void ft_create_map(t_all all)
@@ -155,7 +161,7 @@ void ft_create_map(t_all all)
 	all.win->mlx = mlx_init();
 	all.win->win = mlx_new_window(all.win->mlx, 640, 480, "new window");
 	all.win->img = mlx_new_image(all.win->mlx, 640 , 480);
-//	all.win->addr = mlx_get_data_addr(all.win->img, &all.win->bpp, &all.win->line_l, &all.win->en);
+	all.win->addr = mlx_get_data_addr(all.win->img, &all.win->bpp, &all.win->line_l, &all.win->en);
 
 //	while(y++ < 40)
 //	{
@@ -163,10 +169,11 @@ void ft_create_map(t_all all)
 //		while(x++ < 40)
 //			mlx_pixel_put(win.mlx,win.win,x,y, 0xFFFFFF);
 //	}
-
 	all.plr = &plr;
 	draw_screen(&all);
 	mlx_hook(all.win->win,2, (1L << 0), &ft_key_press, &all);
+
+	mlx_put_image_to_window(all.win->mlx, all.win->win, all.win->img, 0, 0);
 	mlx_loop(all.win->mlx);
 
 
@@ -267,4 +274,12 @@ char *ft_parser_file(t_list *head, int size)
 //	}
 	ft_parser_argument(map, size);
 	return (map);
+}
+
+void            my_mlx_pixel_put(t_win *data, int x, int y, int color)
+{
+	char    *dst;
+
+	dst = data->addr + (y * data->line_l + x * (data->bpp / 8));
+	*(unsigned int*)dst = color;
 }

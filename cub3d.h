@@ -60,7 +60,8 @@ int		get_next_line(int fd, char **line);
 char *ft_parser_file(t_list *head, int size);
 int ft_key_press(int key, t_all *all);
 void ft_create_map(t_all all);
-void ft_create_point(int x, int y, t_all all, int color);
+void ft_create_point(int x, int y, t_all *all, int color);
 int draw_screen(t_all *all);
 void	ft_cast_ray(t_all *all);
+void	my_mlx_pixel_put(t_win *data, int x, int y, int color);
 #endif
